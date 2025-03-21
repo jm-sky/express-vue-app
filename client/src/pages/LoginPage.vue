@@ -15,7 +15,7 @@ const userStore = useUserStore()
 
 const { isSubmitting, setErrors, handleSubmit, defineField } = useForm({
   initialValues: {
-    email: 'jan.madeyski@sklodowscy.pl',
+    email: 'john.doe@example.com',
     password: 'Secret123!',
   }
 })
