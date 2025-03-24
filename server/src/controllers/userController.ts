@@ -1,5 +1,5 @@
 import { type Request, type Response } from 'express';
-import { User } from '../models/user';
+import { User } from '../models/user.js';
 
 function getUser(req: Request, res: Response): void {
   const user: User = {
