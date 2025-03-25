@@ -27,6 +27,7 @@ export default defineConfig([
 
       '@typescript-eslint/restrict-template-expressions': 'off',
       '@typescript-eslint/no-extraneous-class': 'off',
+      '@typescript-eslint/no-misused-promises': 'off',
       // ----------------------------------------
       'perfectionist/sort-classes': 'off',
       'perfectionist/sort-interfaces': 'off',

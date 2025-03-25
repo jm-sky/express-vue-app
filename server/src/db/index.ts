@@ -1,7 +1,9 @@
+// npx drizzle-kit generate
+// npx drizzle-kit migrate
 import 'dotenv/config'
 import bcrypt from 'bcryptjs'
 import { drizzle, LibSQLDatabase } from 'drizzle-orm/libsql'
-import { usersTable } from 'src/db/schema/usersTable.js'
+import { usersTable } from './schema/usersTable.js'
 
 class DBService {
   db: LibSQLDatabase

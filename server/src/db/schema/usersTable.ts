@@ -7,3 +7,5 @@ export const usersTable = sqliteTable('users_table', {
   email: text().notNull().unique(),
   password: text().notNull(),
 })
+
+export type UserData = typeof usersTable.$inferSelect;

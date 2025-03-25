@@ -6,6 +6,7 @@ import express from 'express'
 import { dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import path from 'path'
+import { jwtHelper } from './middleware/jwtHelper.js'
 import routes from './routes/index.js'
 
 dotenv.config()
@@ -20,6 +21,7 @@ app.use(express.json())
 app.use(express.static(path.join(__dirname, '../../client/dist')))
 app.use(express.static(path.join(__dirname, '../public')))
 
+app.use('/api', jwtHelper())
 app.use('/api', routes)
 
 app.use('/', (req, res) => {
