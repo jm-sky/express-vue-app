@@ -1,23 +1,31 @@
-/* eslint-disable @typescript-eslint/no-extraneous-class */
-import { UserSeeder } from 'src/db/seeds/userSeeder.js'
+import 'dotenv/config'
+import bcrypt from 'bcryptjs'
+import { drizzle, LibSQLDatabase } from 'drizzle-orm/libsql'
+import { usersTable } from 'src/db/schema/usersTable.js'
 
-import { AppDataSource } from './data-source.js'
+class DBService {
+  db: LibSQLDatabase
 
-export class DB {
-  static async create() {
-    try {
-      await DB.#init()
-      await DB.#seed()
-    } catch(error) {
-      console.log(error)
+  constructor(db: LibSQLDatabase) {
+    this.db = db
+  }
+
+  static create() {
+    const db = drizzle({ connection: { url: process.env.DB_FILE_NAME }})
+    return new DBService(db)
+  }
+
+  async seed() {
+    const user: typeof usersTable.$inferInsert = {
+      name: 'John',
+      lastName: 'Doe',
+      email: 'john@example.com',
+      password: bcrypt.hashSync('Secret123!'),
     }
-  }
 
-  static async #init() {
-    await AppDataSource.initialize()
-  }
-
-  static async #seed() {
-    await UserSeeder.seed(AppDataSource)
+    await this.db.insert(usersTable).values(user)
+    console.log('New user created!')
   }
 }
+
+export const dbService = DBService.create()

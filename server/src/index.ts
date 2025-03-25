@@ -6,8 +6,6 @@ import express from 'express'
 import { dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import path from 'path'
-
-import { DB } from './db/index.js'
 import routes from './routes/index.js'
 
 dotenv.config()
@@ -28,8 +26,6 @@ app.use('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'))
 })
 
-
-await DB.create()
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`)

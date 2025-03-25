@@ -1,7 +1,16 @@
-import { type Request, type Response } from 'express';
+import { type Request, type Response } from 'express'
+import jwt from 'jsonwebtoken'
 
 function login(req: Request, res: Response): void {
-  res.status(200).send('123456789')
+  const payload = {
+    usr: 1,
+  }
+
+  const token: string = jwt.sign(payload, process.env.APP_SECRET)
+
+  res.status(200).json({
+    token,
+  })
 }
 
 function logout(req: Request, res: Response): void {
@@ -11,4 +20,4 @@ function logout(req: Request, res: Response): void {
 export default {
   login,
   logout,
-};
+}
