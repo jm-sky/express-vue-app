@@ -1,0 +1,21 @@
+{
+  "extends": "@tsconfig/node22/tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./"
+    // "target": "ESNext",
+    // "module": "NodeNext",
+    // "moduleResolution": "NodeNext",
+    // "allowSyntheticDefaultImports": true,
+    // "resolveJsonModule": true,
+    // "baseUrl": ".",
+    // "outDir": "build",
+    // "sourceMap": true,
+    // "strict": true,
+    // "esModuleInterop": true,
+    // "types": ["node"],
+    // "emitDecoratorMetadata": true,
+    // "experimentalDecorators": true
+  },
+  "include": ["process.env.d.ts", "eslint.config.js", "./**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}
