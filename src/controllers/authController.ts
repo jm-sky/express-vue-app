@@ -26,12 +26,7 @@ async function login(req: Request<unknown, unknown, Credentials>, res: Response)
   const email = req.body.email
   const password = req.body.password
 
-  const users = await dbService.db.select().from(usersTable).where(eq(usersTable.email, email))
-  const user = users[0] as UserData | undefined
-
-  // console.log('[Auth][login] email:', email)
-  // console.log('[Auth][login] password:', password)
-  // console.log('[Auth][login] users:', users)
+  const user = (await dbService.db.select().from(usersTable).where(eq(usersTable.email, email)))[0] as UserData | undefined
 
   if (!user?.password || !bcrypt.compareSync(password, user.password)) {
     res.status(StatusCodes.UNAUTHORIZED).send()
@@ -58,7 +53,7 @@ async function register(req: Request<unknown, unknown, RegistrationData>, res: R
     const users = await dbService.db.insert(usersTable).values({
       ...data,
       password: bcrypt.hashSync(data.password),
-    }).returning();
+    }).returning()
 
     const user = users[0]
 
@@ -74,9 +69,7 @@ async function register(req: Request<unknown, unknown, RegistrationData>, res: R
     })
 
   } catch {
-    res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
-      email: 'E-mail already in use',
-    })
+    res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({ error: 'Database error'})
   }
 }
 

@@ -1,8 +1,8 @@
 import express from 'express'
+import { jwtMiddleware } from '../middleware/jwtMiddleware.js'
 import AuthRoutes from './auth.js'
 import UserRoutes from './user.js'
 import UsersRoutes from './users.js'
-import { jwtMiddleware } from '../middleware/jwtMiddleware.js'
 
 const router = express.Router()
 
