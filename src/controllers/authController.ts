@@ -15,6 +15,13 @@ export interface Credentials {
   password: string
 }
 
+export interface RegistrationData {
+  email: string
+  lastName: string
+  name: string
+  password: string
+}
+
 async function login(req: Request<unknown, unknown, Credentials>, res: Response): Promise<void> {
   const email = req.body.email
   const password = req.body.password
@@ -39,16 +46,46 @@ async function login(req: Request<unknown, unknown, Credentials>, res: Response)
 
   // console.log('[Auth][login] token:', token)
 
-  res.status(200).json({
+  res.status(StatusCodes.OK).json({
     token,
   })
 }
 
+async function register(req: Request<unknown, unknown, RegistrationData>, res: Response): Promise<void> {
+  const data = req.body
+
+  try {
+    const users = await dbService.db.insert(usersTable).values({
+      ...data,
+      password: bcrypt.hashSync(data.password),
+    }).returning();
+
+    const user = users[0]
+
+    const payload: JwtPayload = {
+      usr: user.id,
+    }
+
+    const token: string = jwt.sign(payload, process.env.APP_SECRET)
+
+    res.status(StatusCodes.OK).json({
+      token,
+      user,
+    })
+
+  } catch {
+    res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({
+      email: 'E-mail already in use',
+    })
+  }
+}
+
 function logout(req: Request, res: Response): void {
-  res.status(200).send()
+  res.status(StatusCodes.OK).send()
 }
 
 export default {
   login,
   logout,
+  register,
 }

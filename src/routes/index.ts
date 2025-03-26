@@ -2,6 +2,7 @@ import express from 'express'
 import AuthRoutes from './auth.js'
 import UserRoutes from './user.js'
 import UsersRoutes from './users.js'
+import { jwtMiddleware } from '../middleware/jwtMiddleware.js'
 
 const router = express.Router()
 
@@ -12,7 +13,7 @@ router.get('/', (req, res) => {
 })
 
 router.use('/auth', AuthRoutes)
-router.use('/user', UserRoutes)
-router.use('/users', UsersRoutes)
+router.use('/user', jwtMiddleware(), UserRoutes)
+router.use('/users', jwtMiddleware(), UsersRoutes)
 
 export default router
